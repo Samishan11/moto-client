@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Path, Circle } from 'react-native-svg';
 
 interface NavContextValue {
@@ -81,7 +82,13 @@ export function BottomTabBar({ nav }: BottomTabBarProps): ReactNode {
 
   return (
     <View style={styles.container}>
-      <View style={styles.gradientOverlay} />
+      <LinearGradient
+        colors={['rgba(10,11,13,0)', 'rgba(10,11,13,0.94)']}
+        locations={[0, 0.4]}
+        start={{ x: 0.5, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
+        style={styles.gradientOverlay}
+      />
       <View style={styles.tabBar}>
         {tabs.map((tab) => {
           const isActive = nav.route === tab.route;
@@ -101,17 +108,26 @@ export function BottomTabBar({ nav }: BottomTabBarProps): ReactNode {
       </View>
 
       {/* Floating Action Button */}
-      <TouchableOpacity
+      <LinearGradient
+        colors={['#FF6A2F', '#E8410C']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        locations={[0, 1]}
+        angle={150}
         style={styles.fab}
-        onPress={() => {
-          /* Start ride */
-        }}
       >
-        <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <Path d="M12 2l7 18-7-4-7 4 7-18z" fill="#fff" />
-        </Svg>
-        <Text style={styles.fabLabel}>RIDE</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.fabContent}
+          onPress={() => {
+            /* Start ride */
+          }}
+        >
+          <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <Path d="M12 2l7 18-7-4-7 4 7-18z" fill="#fff" />
+          </Svg>
+          <Text style={styles.fabLabel}>RIDE</Text>
+        </TouchableOpacity>
+      </LinearGradient>
     </View>
   );
 }
@@ -133,7 +149,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     top: 0,
-    backgroundColor: 'rgba(10,11,13,0.5)',
     zIndex: 0,
   },
   tabBar: {
@@ -147,12 +162,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingHorizontal: 8,
     zIndex: 1,
+    overflow: 'hidden',
   },
   tabButton: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
+    paddingVertical: 8,
   },
   tabLabel: {
     fontSize: 10,
@@ -170,17 +187,21 @@ const styles = StyleSheet.create({
     width: 62,
     height: 62,
     borderRadius: 31,
-    backgroundColor: '#FF5A1F',
     borderWidth: 4,
     borderColor: '#0A0B0D',
     zIndex: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
     shadowColor: '#FF5A1F',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.7,
     shadowRadius: 26,
-    elevation: 10,
+    elevation: 13,
+  },
+  fabContent: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 31,
   },
   fabLabel: {
     fontSize: 9,
