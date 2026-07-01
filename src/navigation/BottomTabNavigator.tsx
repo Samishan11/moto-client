@@ -140,9 +140,9 @@ export function BottomTabBar({ nav }: BottomTabBarProps): ReactNode {
           <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <Path d="M12 2l7 18-7-4-7 4 7-18z" fill="#fff" />
           </Svg>
-          <Text style={styles.fabLabel}>RIDE</Text>
         </TouchableOpacity>
       </LinearGradient>
+      <Text style={styles.fabLabelText}>RIDE</Text>
     </View>
   );
 }
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.08)',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     paddingHorizontal: 8,
     zIndex: 1,
     overflow: 'hidden',
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     shadowColor: '#FF5A1F',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.7,
-    shadowRadius: 26,
+    shadowRadius: 13,
     elevation: 13,
   },
   fabContent: {
@@ -221,11 +221,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 31,
   },
-  fabLabel: {
+  fabLabelText: {
+    position: 'absolute',
+    top: 50,
+    left: '50%',
+    marginLeft: -15,
     fontSize: 9,
     fontWeight: '700',
     color: '#FF7A3F',
-    letterSpacing: 0.5,
-    marginTop: 2,
+    letterSpacing: 0.05,
+    zIndex: 2,
   },
 });
