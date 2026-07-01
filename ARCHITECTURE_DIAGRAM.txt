@@ -1,0 +1,186 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    MOTO MOBILE APP - ARCHITECTURE                          ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          APP.TSX (Root Component)                          │
+│  ┌─────────────────────────────────────────────────────────────────────┐  │
+│  │ useReducer (AuthState)                                              │  │
+│  │  ├─ isLoading: boolean                                              │  │
+│  │  ├─ isSignout: boolean                                              │  │
+│  │  └─ userToken: string | null                                        │  │
+│  └─────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                    ┌───────────────┴──────────────┐
+                    │                              │
+              (No Token)                    (Has Token)
+                    │                              │
+         ┌──────────▼────────┐         ┌──────────▼──────────┐
+         │   AUTH STACK      │         │   APP STACK         │
+         │                   │         │                     │
+         │ ┌────────────┐    │         │  ┌──────────────┐   │
+         │ │ Splash     │    │         │  │ MainTabs     │   │
+         │ │ (2s)       │    │         │  │ (4 tabs)     │   │
+         │ └────────────┘    │         │  │              │   │
+         │       ↓           │         │  │ ┌─────────┐  │   │
+         │ ┌────────────┐    │         │  │ │ Home    │  │   │
+         │ │ Welcome    │    │         │  │ │ Trips   │  │   │
+         │ │ (carousel) │    │         │  │ │ Groups  │  │   │
+         │ └────────────┘    │         │  │ │ Garage  │  │   │
+         │       ↓           │         │  │ └─────────┘  │   │
+         │ ┌────────────┐    │         │  └──────────────┘   │
+         │ │ Login      │    │         │         │            │
+         │ │ (form)     │    │         │  ┌──────▼────────┐   │
+         │ └────────────┘    │         │  │ Modal Screens │   │
+         │       ↓           │         │  │               │   │
+         │ ┌────────────┐    │         │  │ • TripDetail  │   │
+         │ │Permissions │    │         │  │ • Chat        │   │
+         │ │ (requests) │    │         │  │ • BikeDetail  │   │
+         │ └────────────┘    │         │  │ • Profile     │   │
+         │                   │         │  │ • Notifications
+         └───────────────────┘         │  └───────────────┘   │
+                                       │         │             │
+                                       │  ┌──────▼────────┐   │
+                                       │  │Full-Screen    │   │
+                                       │  │Modals         │   │
+                                       │  │               │   │
+                                       │  │ • Map         │   │
+                                       │  │ • LiveRide    │   │
+                                       │  │ • SOS         │   │
+                                       │  └───────────────┘   │
+                                       │                      │
+                                       └──────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                        DATA FLOW ARCHITECTURE                              ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    ┌─────────────────────────────────────────────────────────┐
+    │              REACT COMPONENT HIERARCHY                  │
+    │  (Screen → Components → Styled Views)                   │
+    └───────────────────┬─────────────────────────────────────┘
+                        │
+                ┌───────┴────────┐
+                │                │
+    ┌───────────▼──────┐  ┌──────▼────────────┐
+    │   CUSTOM HOOKS   │  │  STATE MANAGEMENT │
+    │ (useAuth,        │  │   (Zustand)       │
+    │  useTrips,       │  │                   │
+    │  useLocation)    │  │ • authStore       │
+    │                  │  │ • userStore       │
+    │ ↓                │  │ • tripsStore      │
+    │ Fetch/Cache      │  │ • appStore        │
+    │ Data             │  │ • locationStore   │
+    └────────┬─────────┘  └────────┬──────────┘
+             │                     │
+             └──────────┬──────────┘
+                        │
+            ┌───────────▼────────────┐
+            │   API LAYER (Axios)    │
+            │                        │
+            │ • Request interceptor  │
+            │   (inject auth token)  │
+            │                        │
+            │ • Response interceptor │
+            │   (handle 401/refresh) │
+            │                        │
+            │ • Automatic retry      │
+            └───────────┬────────────┘
+                        │
+                        ▼
+            ┌──────────────────────┐
+            │   BACKEND API        │
+            │   (NestJS)           │
+            │                      │
+            │  Base URL:           │
+            │  localhost:3000/...  │
+            │                      │
+            │  Endpoints:          │
+            │  /auth/login         │
+            │  /user/profile       │
+            │  /trips              │
+            │  /groups             │
+            │  /bikes              │
+            └──────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                      NAVIGATION STATE MACHINE                              ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    Initial State
+         │
+         ▼
+    [isLoading=true]
+         │
+         ├─ Check SecureStore for token
+         │
+         ▼
+    [isLoading=false]
+         │
+         ├─ Token found?
+         │
+    ┌────┴─────┐
+    │           │
+   YES         NO
+    │           │
+    │           ├─ isSignout=false
+    │           │  userToken=null
+    │           │
+    │           ▼
+    │       [AuthStack]
+    │       (Splash → Welcome → Login → Permissions)
+    │
+    ├─ isSignout=false
+    │  userToken=<JWT>
+    │
+    ▼
+[AppStack]
+(MainTabs + Modal + FullScreenModal)
+
+After Login:
+    Login Screen → Dispatch SIGN_IN
+                       │
+                       ├─ Save token to SecureStore
+                       ├─ Update userToken in state
+                       │
+                       ▼
+                  AuthStack replaced with AppStack
+                  → Lands on Permissions Screen
+                  → Then navigates to Home
+
+
+Home Screen Layout:
+┌─────────────────────────────────────────┐
+│         STATUS BAR (9:41)               │
+├─────────────────────────────────────────┤
+│ 👋 Good morning, rider      🔔 ⓘ AR    │  ◄─── Header
+├─────────────────────────────────────────┤
+│                                         │
+│  UPCOMING RIDE                          │
+│  ┌─────────────────────────────────┐   │
+│  │ [Route Visualization]           │   │  ◄─── Ride Card
+│  │ Alpine Pass Loop                │   │
+│  │ Sat • 7:00 AM • 248 km • ~5h   │   │
+│  │ [M] [A] [D] [+9]  You're going →│   │
+│  └─────────────────────────────────┘   │
+│                                         │
+│  [▶ Quick Ride] [🗺 Map] [⚠ Safety]   │  ◄─── Quick Actions
+│                                         │
+│  [18° Cloudy] [🔧 Oil Service]         │  ◄─── Cards Row
+│                                         │
+│  HAZARDS NEARBY                         │
+│  ⚠ Gravel on road · 12 km ahead        │  ◄─── Alert
+│                                         │
+│  GROUP ACTIVITY                         │
+│  [IH] Iron Horizon MC                   │
+│        Marcus: Route looks clear... › 3 │  ◄─── Group
+│                                         │
+│                                         │
+├─────────────────────────────────────────┤
+│ [HOME] [TRIPS] [GROUPS] [GARAGE]       │  ◄─── Bottom Tabs
+│        ┌──────────────┐                │
+│        │   [▶ RIDE]   │                │  ◄─── FAB
+│        └──────────────┘                │
+└─────────────────────────────────────────┘
+
