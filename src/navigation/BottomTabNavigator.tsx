@@ -90,7 +90,24 @@ export function BottomTabBar({ nav }: BottomTabBarProps): ReactNode {
         style={styles.gradientOverlay}
       />
       <View style={styles.tabBar}>
-        {tabs.map((tab) => {
+        {tabs.slice(0, 2).map((tab) => {
+          const isActive = nav.route === tab.route;
+          return (
+            <TouchableOpacity
+              key={tab.route}
+              style={styles.tabButton}
+              onPress={() => nav.reset(tab.route)}
+            >
+              {renderIcon(tab.icon, isActive)}
+              <Text style={[styles.tabLabel, isActive && styles.tabLabelActive]}>
+                {tab.label}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+        {/* Space for FAB */}
+        <View style={styles.fabSpace} />
+        {tabs.slice(2).map((tab) => {
           const isActive = nav.route === tab.route;
           return (
             <TouchableOpacity
@@ -159,7 +176,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.08)',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     paddingHorizontal: 8,
     zIndex: 1,
     overflow: 'hidden',
@@ -170,6 +187,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 6,
     paddingVertical: 8,
+  },
+  fabSpace: {
+    width: 56,
   },
   tabLabel: {
     fontSize: 10,
