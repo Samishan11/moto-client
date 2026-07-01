@@ -127,10 +127,8 @@ export function BottomTabBar({ nav }: BottomTabBarProps): ReactNode {
       {/* Floating Action Button */}
       <LinearGradient
         colors={['#FF6A2F', '#E8410C']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        locations={[0, 1]}
-        angle={150}
+        start={{ x: 0.2, y: 0.2 }}
+        end={{ x: 0.8, y: 0.8 }}
         style={styles.fab}
       >
         <TouchableOpacity
