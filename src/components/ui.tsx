@@ -60,7 +60,7 @@ interface ButtonProps {
   onPress: () => void;
   loading?: boolean;
   disabled?: boolean;
-  variant?: 'primary' | 'link';
+  variant?: 'primary' | 'link' | 'destructive';
 }
 
 export function Button({
@@ -71,21 +71,28 @@ export function Button({
   variant = 'primary',
 }: ButtonProps): ReactNode {
   const isLink = variant === 'link';
+  const isDestructive = variant === 'destructive';
   const isDisabled = disabled || loading;
   return (
     <Pressable
       onPress={onPress}
       disabled={isDisabled}
       style={({ pressed }) => [
-        isLink ? styles.linkBtn : styles.primaryBtn,
+        isDestructive ? styles.destructiveBtn : isLink ? styles.linkBtn : styles.primaryBtn,
         isDisabled && !isLink && styles.btnDisabled,
         pressed && !isDisabled && styles.btnPressed,
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={isLink ? colors.primary : colors.primaryText} />
+        <ActivityIndicator
+          color={isDestructive ? '#FF453A' : isLink ? colors.primary : colors.primaryText}
+        />
       ) : (
-        <Text style={isLink ? styles.linkText : styles.primaryText}>{title}</Text>
+        <Text
+          style={isDestructive ? styles.destructiveText : isLink ? styles.linkText : styles.primaryText}
+        >
+          {title}
+        </Text>
       )}
     </Pressable>
   );
@@ -149,6 +156,17 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   primaryText: { color: '#fff', fontSize: 16, fontWeight: '700' },
+  destructiveBtn: {
+    backgroundColor: 'rgba(255,69,58,0.08)',
+    borderRadius: 16,
+    height: 54,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 0,
+    borderWidth: 1,
+    borderColor: 'rgba(255,69,58,0.2)',
+  },
+  destructiveText: { color: '#FF453A', fontSize: 16, fontWeight: '600' },
   linkBtn: { paddingVertical: spacing(1), alignItems: 'center', height: 52, marginTop: 12 },
   linkText: { color: '#FF5A1F', fontSize: 15, fontWeight: '600' },
   btnDisabled: { opacity: 0.5 },

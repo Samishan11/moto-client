@@ -59,16 +59,24 @@ export function LinkRow({
   subtitle,
   onPress,
   icon,
+  hideBorder,
+  noBorderBottom,
 }: {
   title: string;
   subtitle?: string;
   onPress: () => void;
   icon?: string;
+  hideBorder?: boolean;
+  noBorderBottom?: boolean;
 }): ReactNode {
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+      style={({ pressed }) => [
+        hideBorder ? styles.rowNoBorder : styles.row,
+        pressed && styles.rowPressed,
+        noBorderBottom && styles.rowNoBottomBorder,
+      ]}
     >
       {icon ? <Text style={styles.rowIcon}>{icon}</Text> : null}
       <View style={styles.flex}>
@@ -126,6 +134,18 @@ const styles = StyleSheet.create({
     paddingVertical: spacing(1.75),
     gap: spacing(1),
     backgroundColor: colors.bg,
+  },
+  rowNoBorder: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing(2),
+    paddingVertical: spacing(1.75),
+    gap: spacing(1),
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'rgba(255,255,255,0.05)',
+  },
+  rowNoBottomBorder: {
+    borderBottomWidth: 0,
   },
   rowPressed: { opacity: 0.7 },
   rowIcon: { fontSize: 18 },
