@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    width: '100%',
     zIndex: 40,
     paddingHorizontal: 14,
     paddingTop: 10,
@@ -200,8 +201,7 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
     top: -14,
-    left: '50%',
-    marginLeft: -31,
+    alignSelf: 'center',
     width: 62,
     height: 62,
     borderRadius: 31,
@@ -224,8 +224,7 @@ const styles = StyleSheet.create({
   fabLabelText: {
     position: 'absolute',
     top: 50,
-    left: '50%',
-    marginLeft: -15,
+    alignSelf: 'center',
     fontSize: 9,
     fontWeight: '700',
     color: '#FF7A3F',
