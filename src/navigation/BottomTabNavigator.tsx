@@ -180,11 +180,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   tabButton: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
     paddingVertical: 8,
+    paddingHorizontal: 16,
   },
   fabSpace: {
     width: 56,
