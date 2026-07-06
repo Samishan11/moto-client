@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import type { TripStop } from "@moto/contract";
+import type { TripStop } from "@samishan11/moto-contract";
 import { Field } from "./ui";
 import { TripMap } from "./TripMap";
 import { MapRoutePicker, type PickedPoint } from "./MapRoutePicker";

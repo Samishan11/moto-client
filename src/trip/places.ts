@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { TripStop } from '@moto/contract';
+import type { TripStop } from '@samishan11/moto-contract';
 
 /**
  * Reverse-geocoded place names for trip stops ("Pokhara, Gandaki") via

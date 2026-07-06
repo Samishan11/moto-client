@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { PasswordSchema } from '@moto/contract';
+import { PasswordSchema } from '@samishan11/moto-contract';
 import { useNavigation } from '../navigation/Navigator';
 import { useResetPassword } from '../auth/mutations';
 import { errorMessage } from '../api/errorMessage';

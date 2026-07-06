@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import * as Location from "expo-location";
-import type { HazardType } from "@moto/contract";
+import type { HazardType } from "@samishan11/moto-contract";
 import { Button, Field, FormError } from "../components/ui";
 import { Header, Page } from "../components/layout";
 import { useNavigation } from "../navigation/Navigator";

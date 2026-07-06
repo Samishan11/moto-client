@@ -1,7 +1,7 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { EmailSchema, PasswordSchema } from '@moto/contract';
+import { EmailSchema, PasswordSchema } from '@samishan11/moto-contract';
 import { AuthField } from '../components/AuthField';
 import { useNavigation } from '../navigation/Navigator';
 import { useRegister } from '../auth/mutations';

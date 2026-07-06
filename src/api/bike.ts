@@ -10,7 +10,7 @@ import type {
   ServiceRecord,
   UpdateBikeRequest,
   UpdateServiceRecordRequest,
-} from '@moto/contract';
+} from '@samishan11/moto-contract';
 import { apiFetch } from './client';
 
 // --- Bikes ---

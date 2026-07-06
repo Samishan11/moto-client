@@ -15,12 +15,12 @@ import type {
   UpdateAnnouncementRequest,
   UpdateGroupRequest,
   UpdateMemberRoleRequest,
-} from '@moto/contract';
+} from '@samishan11/moto-contract';
 import { apiFetch } from './client';
 
 /**
  * Thin, fully-typed wrappers over the backend's Phase 3 `/groups` + `/invites`
- * routes. Request/response shapes come from @moto/contract — the same Zod
+ * routes. Request/response shapes come from @samishan11/moto-contract — the same Zod
  * schemas the API validates against — so there's no client/server type drift.
  */
 

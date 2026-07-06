@@ -8,7 +8,7 @@ import type {
   UpdateAnnouncementRequest,
   UpdateGroupRequest,
   UpdateMemberRoleRequest,
-} from '@moto/contract';
+} from '@samishan11/moto-contract';
 import { connectChatSocket, joinGroupRoom, subscribeGroupMembers } from '../chat/socket';
 import {
   acceptInvite,

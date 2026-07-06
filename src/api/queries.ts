@@ -4,7 +4,7 @@ import {
   useInfiniteQuery,
   useQuery,
 } from "@tanstack/react-query";
-import type { GroupPage } from "@moto/contract";
+import type { GroupPage } from "@samishan11/moto-contract";
 import { meRequest } from "./auth";
 import { getHealth } from "./client";
 import { getProfile, listEmergencyContacts } from "./profile";

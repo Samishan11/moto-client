@@ -3,10 +3,10 @@ import type {
   LiftRequest,
   MessageResponse,
   UpdateLiftRequest,
-} from "@moto/contract";
+} from "@samishan11/moto-contract";
 import { apiFetch } from "./client";
 
-/** Typed wrappers over the lift routes (types from @moto/contract). */
+/** Typed wrappers over the lift routes (types from @samishan11/moto-contract). */
 
 export function listNearbyLifts(
   lat: number,

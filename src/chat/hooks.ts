@@ -4,7 +4,7 @@ import type {
   CreateReportRequest,
   MessagePage,
   SendMessageRequest,
-} from '@moto/contract';
+} from '@samishan11/moto-contract';
 import {
   addReaction,
   blockUser,

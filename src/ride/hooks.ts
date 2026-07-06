@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import type { StartRideRequest, UpdateRideStatusRequest } from '@moto/contract';
+import type { StartRideRequest, UpdateRideStatusRequest } from '@samishan11/moto-contract';
 import {
   joinRide,
   leaveRide,

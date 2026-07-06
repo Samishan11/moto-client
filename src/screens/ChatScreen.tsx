@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Path } from 'react-native-svg';
-import type { ChatMessage, CreateReportRequest } from '@moto/contract';
+import type { ChatMessage, CreateReportRequest } from '@samishan11/moto-contract';
 import { useNavigation } from '../navigation/Navigator';
 import { useAuth } from '../auth/AuthContext';
 import { useGroup } from '../api/queries';

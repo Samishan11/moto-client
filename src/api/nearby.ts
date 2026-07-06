@@ -1,4 +1,4 @@
-import type { NearbyRider } from "@moto/contract";
+import type { NearbyRider } from "@samishan11/moto-contract";
 import { apiFetch } from "./client";
 
 /** Snapshot of nearby riders (mutual-group only), nearest first. */

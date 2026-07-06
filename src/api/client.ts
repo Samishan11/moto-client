@@ -1,4 +1,4 @@
-import type { AuthTokens, ErrorResponse, HealthResponse } from '@moto/contract';
+import type { AuthTokens, ErrorResponse, HealthResponse } from '@samishan11/moto-contract';
 import { API_URL } from './config';
 
 /**
@@ -153,7 +153,7 @@ export async function apiFetch<T>(path: string, opts: RequestOptions = {}): Prom
 
 /**
  * Proves the shared-contract pipeline end-to-end: the response is typed by
- * @moto/contract, the same source the API validates against. No duplicated types.
+ * @samishan11/moto-contract, the same source the API validates against. No duplicated types.
  */
 export function getHealth(): Promise<HealthResponse> {
   return apiFetch<HealthResponse>('/health/ready');

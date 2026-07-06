@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import type { CreateStopRequest, TripDetail } from "@moto/contract";
+import type { CreateStopRequest, TripDetail } from "@samishan11/moto-contract";
 import { Button, Field, FormError } from "../components/ui";
 import { DateField } from "../components/DateField";
 import { Header, Loading, Page } from "../components/layout";

@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import type { PollType } from '@moto/contract';
+import type { PollType } from '@samishan11/moto-contract';
 import { Button, Field, FormError } from '../components/ui';
 import { Header, Page } from '../components/layout';
 import { useNavigation } from '../navigation/Navigator';

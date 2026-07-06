@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import type { EmergencyContact } from '@moto/contract';
+import type { EmergencyContact } from '@samishan11/moto-contract';
 import { Button, Field, FormError } from '../components/ui';
 import { Card, EmptyState, Header, Loading, Page } from '../components/layout';
 import { useEmergencyContacts } from '../api/queries';

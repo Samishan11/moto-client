@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import Svg, { Path, Circle } from "react-native-svg";
-import type { Group, Reminder, Trip } from "@moto/contract";
+import type { Group, Reminder, Trip } from "@samishan11/moto-contract";
 import { useNavigation } from "../navigation/Navigator";
 import {
   useMyTrips,

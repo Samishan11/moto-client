@@ -13,7 +13,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import Svg, { Circle, Path } from 'react-native-svg';
-import type { Group } from '@moto/contract';
+import type { Group } from '@samishan11/moto-contract';
 import { EmptyState, Loading } from '../components/layout';
 import { RoleBadge } from '../components/RoleBadge';
 import { useNavigation } from '../navigation/Navigator';

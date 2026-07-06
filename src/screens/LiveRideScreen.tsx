@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import type { RideDetail, RideParticipant } from "@moto/contract";
+import type { RideDetail, RideParticipant } from "@samishan11/moto-contract";
 import { Loading } from "../components/layout";
 import {
   LiveRideMap,

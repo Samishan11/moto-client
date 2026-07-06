@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { TripStop } from "@moto/contract";
+import type { TripStop } from "@samishan11/moto-contract";
 import { describeWeatherCode } from "../lib/weather";
 
 /** Live forecast reaches ~16 days; beyond that we fall back to climatology. */

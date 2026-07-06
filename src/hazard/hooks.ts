@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import type { CreateHazardRequest, Hazard } from "@moto/contract";
+import type { CreateHazardRequest, Hazard } from "@samishan11/moto-contract";
 import { deleteHazard, reportHazard } from "../api/hazard";
 import { hazardsQueryOptions, queryKeys } from "../api/queries";
 import { queryClient } from "../api/queryClient";

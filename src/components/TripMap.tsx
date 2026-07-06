@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import { WebView } from "react-native-webview";
-import type { TripStop } from "@moto/contract";
+import type { TripStop } from "@samishan11/moto-contract";
 import type { StopWeather } from "../trip/weather";
 
 /**

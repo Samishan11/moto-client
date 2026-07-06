@@ -3,10 +3,10 @@ import type {
   Hazard,
   MessageResponse,
   UpdateHazardRequest,
-} from "@moto/contract";
+} from "@samishan11/moto-contract";
 import { apiFetch } from "./client";
 
-/** Typed wrappers over the Phase 7 hazard routes (types from @moto/contract). */
+/** Typed wrappers over the Phase 7 hazard routes (types from @samishan11/moto-contract). */
 
 export function listHazards(
   lat: number,

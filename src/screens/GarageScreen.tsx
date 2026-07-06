@@ -3,7 +3,7 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nati
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
 import Svg, { Circle, Defs, Path, Pattern, Rect } from 'react-native-svg';
-import type { Bike, Reminder } from '@moto/contract';
+import type { Bike, Reminder } from '@samishan11/moto-contract';
 import { Button, Notice } from '../components/ui';
 import { Card, EmptyState, Loading } from '../components/layout';
 import { useNavigation } from '../navigation/Navigator';

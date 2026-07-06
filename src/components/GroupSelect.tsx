@@ -8,7 +8,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import type { Group } from '@moto/contract';
+import type { Group } from '@samishan11/moto-contract';
 import { useMyGroupsInfinite, useRecentGroups } from '../api/queries';
 import { colors, spacing } from '../theme';
 

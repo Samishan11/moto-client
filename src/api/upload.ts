@@ -1,4 +1,4 @@
-import type { PresignUploadRequest, PresignUploadResponse, UploadScope } from '@moto/contract';
+import type { PresignUploadRequest, PresignUploadResponse, UploadScope } from '@samishan11/moto-contract';
 import { apiFetch } from './client';
 
 /** Ask the API for a presigned PUT URL. */

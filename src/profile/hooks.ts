@@ -4,7 +4,7 @@ import type {
   UpdateEmergencyContactRequest,
   UpdateProfileRequest,
   UserProfile,
-} from '@moto/contract';
+} from '@samishan11/moto-contract';
 import {
   createEmergencyContact,
   deleteAvatar,

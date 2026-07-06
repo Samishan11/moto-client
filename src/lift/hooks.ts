@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import type { CreateLiftRequest } from "@moto/contract";
+import type { CreateLiftRequest } from "@samishan11/moto-contract";
 import { acceptLift, closeLift, requestLift, unacceptLift } from "../api/lift";
 import {
   myLiftQueryOptions,

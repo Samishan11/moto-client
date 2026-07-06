@@ -48,14 +48,14 @@ If a request conflicts with the design file, the design file wins — surface th
 - `src/screens/` — one file per screen (Home, Trips, Groups, Garage, Profile, BikeForm, BikeDetail, auth screens, etc.)
 - `src/components/` — shared UI (`ui.tsx` for Button/Field/etc., `layout.tsx` for Header/Card/LinkRow, `DateField`)
 - `src/navigation/` — `RootNavigator`, `Navigator`, `BottomTabNavigator`, deeplink
-- `src/api/` — typed API client + React Query queries/mutations (types from `@moto/contract`)
+- `src/api/` — typed API client + React Query queries/mutations (types from `@samishan11/moto-contract`)
 - `src/auth/` — `AuthContext`, token storage (`expo-secure-store`), mutations
 - `src/theme.ts` — design tokens (keep in sync with the design file)
 
 ## Architecture Conventions
 
 - **State/data:** React Query for all server state; mutations invalidate the relevant `queryKeys`.
-- **Types:** import request/response shapes from `@moto/contract` — never redefine them. No type drift with the backend.
+- **Types:** import request/response shapes from `@samishan11/moto-contract` — never redefine them. No type drift with the backend.
 - **Auth:** access token in memory only; refresh token persisted via `expo-secure-store`. Cold-start restore lives in `AuthContext`.
 - **Backend:** NestJS API (see `../moto-backend`). Dev API host is the machine's LAN IP on `:3000`.
 

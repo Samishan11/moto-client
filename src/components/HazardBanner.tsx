@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import type { Hazard } from "@moto/contract";
+import type { Hazard } from "@samishan11/moto-contract";
 import { hazardMeta } from "../hazard/meta";
 
 /**

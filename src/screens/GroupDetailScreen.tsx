@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
-import type { GroupDetail, GroupMember, Role, UpdateMemberRoleRequest } from '@moto/contract';
+import type { GroupDetail, GroupMember, Role, UpdateMemberRoleRequest } from '@samishan11/moto-contract';
 
 /** Roles that can be assigned via the member-role endpoint (OWNER excluded). */
 type AssignableRole = UpdateMemberRoleRequest['role'];
@@ -38,7 +38,7 @@ import {
   useReviewJoinRequest,
   useUpdateMemberRole,
 } from '../group/hooks';
-import type { Announcement } from '@moto/contract';
+import type { Announcement } from '@samishan11/moto-contract';
 import { errorMessage } from '../api/errorMessage';
 import { colors, spacing } from '../theme';
 

@@ -4,7 +4,7 @@ import type {
   UpdateBikeRequest,
   CreateServiceRecordRequest,
   UpdateServiceRecordRequest,
-} from '@moto/contract';
+} from '@samishan11/moto-contract';
 import {
   addBikePhoto,
   createBike,

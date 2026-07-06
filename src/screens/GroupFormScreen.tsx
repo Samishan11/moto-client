@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import type { GroupVisibility } from '@moto/contract';
+import type { GroupVisibility } from '@samishan11/moto-contract';
 import { Button, Field, FormError } from '../components/ui';
 import { Header, Page } from '../components/layout';
 import { useNavigation } from '../navigation/Navigator';

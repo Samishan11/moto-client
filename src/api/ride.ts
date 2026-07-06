@@ -8,10 +8,10 @@ import type {
   RideTrack,
   StartRideRequest,
   UpdateRideStatusRequest,
-} from '@moto/contract';
+} from '@samishan11/moto-contract';
 import { apiFetch } from './client';
 
-/** Typed wrappers over the Phase 6 live-ride routes (types from @moto/contract). */
+/** Typed wrappers over the Phase 6 live-ride routes (types from @samishan11/moto-contract). */
 
 // --- Lifecycle ---
 

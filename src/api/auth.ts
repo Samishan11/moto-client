@@ -9,12 +9,12 @@ import type {
   ResetPasswordRequest,
   UserPublic,
   VerifyEmailRequest,
-} from '@moto/contract';
+} from '@samishan11/moto-contract';
 import { apiFetch } from './client';
 
 /**
  * Thin, fully-typed wrappers over the backend's `/auth/*` routes. Request and
- * response shapes come from @moto/contract — the same Zod schemas the API
+ * response shapes come from @samishan11/moto-contract — the same Zod schemas the API
  * validates against — so there is no type drift between client and server.
  */
 

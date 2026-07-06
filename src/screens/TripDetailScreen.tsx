@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { useTranslation } from "react-i18next";
-import type { Poll, TripDetail, TripStop } from "@moto/contract";
+import type { Poll, TripDetail, TripStop } from "@samishan11/moto-contract";
 import { Loading } from "../components/layout";
 import { TripMap } from "../components/TripMap";
 import { useNavigation } from "../navigation/Navigator";

@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { Alert, Image, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import type { BikeDetail, ServiceRecord } from '@moto/contract';
+import type { BikeDetail, ServiceRecord } from '@samishan11/moto-contract';
 import { Button } from '../components/ui';
 import { Card, EmptyState, Header, Loading } from '../components/layout';
 import { useNavigation } from '../navigation/Navigator';

@@ -8,7 +8,7 @@ import type {
   MessagePage,
   MessageResponse,
   SendMessageRequest,
-} from '@moto/contract';
+} from '@samishan11/moto-contract';
 import { apiFetch } from './client';
 
 /**

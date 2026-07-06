@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import type { Role } from '@moto/contract';
+import type { Role } from '@samishan11/moto-contract';
 
 /** Per-role accent colour + human label, shared across group screens. */
 export const ROLE_COLOR: Record<Role, string> = {

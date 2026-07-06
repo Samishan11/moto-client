@@ -1,7 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useQueries } from '@tanstack/react-query';
-import type { Trip } from '@moto/contract';
+import type { Trip } from '@samishan11/moto-contract';
 import { EmptyState, Loading } from '../components/layout';
 import { useNavigation } from '../navigation/Navigator';
 import { useGroups } from '../api/queries';

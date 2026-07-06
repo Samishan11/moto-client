@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import type { CreateStopRequest, Group } from "@moto/contract";
+import type { CreateStopRequest, Group } from "@samishan11/moto-contract";
 import { Button, Field, FormError } from "../components/ui";
 import { DateField } from "../components/DateField";
 import { GroupSelect } from "../components/GroupSelect";

@@ -21,7 +21,7 @@ import {
   type RideParticipantEvent,
   type RideStatusEvent,
   type TypingBroadcast,
-} from "@moto/contract";
+} from "@samishan11/moto-contract";
 import { API_URL } from "../api/config";
 import { getAccessToken, refreshAccessTokenNow } from "../api/client";
 

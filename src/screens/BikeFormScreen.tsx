@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Circle, Path } from 'react-native-svg';
 import { useTranslation } from 'react-i18next';
-import type { Bike, CreateBikeRequest } from '@moto/contract';
+import type { Bike, CreateBikeRequest } from '@samishan11/moto-contract';
 import { Button, Field, FormError } from '../components/ui';
 import { DateField } from '../components/DateField';
 import { Header, Loading, Page } from '../components/layout';

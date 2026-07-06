@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import type { AuthResult, AuthTokens, UserPublic } from '@moto/contract';
+import type { AuthResult, AuthTokens, UserPublic } from '@samishan11/moto-contract';
 import { configureAuthBridge, setAccessToken } from '../api/client';
 import { connectChatSocket, disconnectChatSocket } from '../chat/socket';
 import { queryClient } from '../api/queryClient';

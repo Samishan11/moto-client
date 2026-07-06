@@ -8,7 +8,7 @@ import type {
   TripDetail,
   UpdateTripRequest,
   VoteRequest,
-} from "@moto/contract";
+} from "@samishan11/moto-contract";
 import {
   addStop,
   createPoll,

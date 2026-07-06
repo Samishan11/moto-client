@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import type { BlockedUser } from '@moto/contract';
+import type { BlockedUser } from '@samishan11/moto-contract';
 import { Header, EmptyState, Loading } from '../components/layout';
 import { useBlockList } from '../api/queries';
 import { useUnblockUser } from '../chat/hooks';

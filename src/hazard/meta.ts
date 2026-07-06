@@ -1,4 +1,4 @@
-import type { HazardType } from "@moto/contract";
+import type { HazardType } from "@samishan11/moto-contract";
 
 /** Display metadata for each hazard type, shared by the picker, banner and map. */
 export interface HazardMeta {

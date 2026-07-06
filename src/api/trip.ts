@@ -13,10 +13,10 @@ import type {
   UpdateStopRequest,
   UpdateTripRequest,
   VoteRequest,
-} from "@moto/contract";
+} from "@samishan11/moto-contract";
 import { apiFetch } from "./client";
 
-/** Typed wrappers over the Phase 5 trip/poll routes (types from @moto/contract). */
+/** Typed wrappers over the Phase 5 trip/poll routes (types from @samishan11/moto-contract). */
 
 // --- Trips ---
 

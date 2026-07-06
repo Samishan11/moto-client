@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import type { RideDetail, RideStatus } from '@moto/contract';
+import type { RideDetail, RideStatus } from '@samishan11/moto-contract';
 import { connectChatSocket, joinGroupRoom, subscribeRide } from '../chat/socket';
 import { queryClient } from '../api/queryClient';
 import { queryKeys } from '../api/queries';
