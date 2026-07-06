@@ -9,6 +9,7 @@ import {
 } from 'react';
 import type { AuthResult, AuthTokens, UserPublic } from '@moto/contract';
 import { configureAuthBridge, setAccessToken } from '../api/client';
+import { connectChatSocket, disconnectChatSocket } from '../chat/socket';
 import { queryClient } from '../api/queryClient';
 import { meQueryOptions, queryKeys } from '../api/queries';
 import {
@@ -48,9 +49,15 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
     queryClient.setQueryData(queryKeys.me, result.user);
     setUser(result.user);
     setStatus('signedIn');
+    // Establish the real-time connection under the new identity eagerly, so
+    // chat/presence events flow before any screen lazily connects.
+    connectChatSocket();
   }, []);
 
   const clearSession = useCallback(async () => {
+    // Tear down the socket FIRST — it authenticated as the departing user and
+    // would otherwise keep receiving that account's rooms until app restart.
+    disconnectChatSocket();
     setAccessToken(null);
     await clearRefreshToken();
     queryClient.removeQueries({ queryKey: queryKeys.me });
@@ -102,12 +109,14 @@ export function AuthProvider({ children }: { children: ReactNode }): ReactNode {
           console.log('[AuthContext] Session restored, user:', me.id);
           setUser(me);
           setStatus('signedIn');
+          connectChatSocket();
         }
       } catch (error) {
         console.error('[AuthContext] Session restore failed:', error instanceof Error ? error.message : error);
         if (!cancelled) {
           // Directly clear without depending on clearSession callback to avoid
           // re-running this effect when status changes
+          disconnectChatSocket();
           setAccessToken(null);
           await clearRefreshToken();
           queryClient.removeQueries({ queryKey: queryKeys.me });

@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import {
   forgotPasswordRequest,
+  googleLoginRequest,
   loginRequest,
   logoutRequest,
   registerRequest,
@@ -31,6 +32,15 @@ export function useLogin() {
   return useMutation({
     mutationFn: (vars: { email: string; password: string }) =>
       loginRequest({ ...vars, deviceName: deviceName(), platform: currentPlatform() }),
+    onSuccess: applySession,
+  });
+}
+
+export function useGoogleLogin() {
+  const { applySession } = useAuth();
+  return useMutation({
+    mutationFn: (idToken: string) =>
+      googleLoginRequest({ idToken, deviceName: deviceName(), platform: currentPlatform() }),
     onSuccess: applySession,
   });
 }

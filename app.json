@@ -24,7 +24,20 @@
           "photosPermission": "Allow Moto to access your photos to set your profile and bike photos.",
           "cameraPermission": "Allow Moto to use the camera to take profile and bike photos."
         }
-      ]
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow Moto to use your location to share your position with your ride group on the live map.",
+          "locationAlwaysAndWhenInUsePermission": "Allow Moto to use your location in the background so your ride group can still see you while your screen is off.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ],
+      "expo-task-manager",
+      "@maplibre/maplibre-react-native",
+      "expo-web-browser"
     ]
   }
 }

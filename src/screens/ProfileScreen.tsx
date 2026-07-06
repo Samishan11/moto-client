@@ -8,7 +8,7 @@ import { DateField } from '../components/DateField';
 import { Header, LinkRow, Loading, Page, Card } from '../components/layout';
 import { useNavigation } from '../navigation/Navigator';
 import { useAuth } from '../auth/AuthContext';
-import { useProfile } from '../api/queries';
+import { useBikes, useEmergencyContacts, useProfile } from '../api/queries';
 import { useDeleteAvatar, useUpdateProfile, useUploadAvatar } from '../profile/hooks';
 import { errorMessage } from '../api/errorMessage';
 import { pickImage } from '../lib/imagePicker';
@@ -29,6 +29,11 @@ function ProfileContent({ profile }: { profile: UserProfile }): ReactNode {
   const { t } = useTranslation();
   const nav = useNavigation();
   const { clearSession } = useAuth();
+  const bikes = useBikes();
+  const contacts = useEmergencyContacts();
+
+  const joinedYear = new Date(profile.createdAt).getFullYear();
+  const handle = profile.email.split('@')[0];
 
   async function handleLogout(): Promise<void> {
     Alert.alert(t('common.signOut'), t('profile.signOutConfirm'), [
@@ -41,6 +46,12 @@ function ProfileContent({ profile }: { profile: UserProfile }): ReactNode {
         },
       },
     ]);
+  }
+
+  // Graceful placeholder for features that don't have a screen yet, so tapping
+  // a menu row informs the user instead of crashing on an unregistered route.
+  function comingSoon(): void {
+    Alert.alert(t('common.comingSoon'), t('common.comingSoonBody'));
   }
 
   return (
@@ -62,33 +73,32 @@ function ProfileContent({ profile }: { profile: UserProfile }): ReactNode {
           </LinearGradient>
         )}
         <Text style={styles.displayName}>{profile.displayName || 'Rider'}</Text>
-        <Text style={styles.email}>@{profile.email.split('@')[0]} · Joined 2022</Text>
+        <Text style={styles.email}>
+          @{handle} · {t('profile.joined', { year: joinedYear })}
+        </Text>
+        {profile.location ? <Text style={styles.location}>📍 {profile.location}</Text> : null}
       </View>
 
-      {/* Stats grid */}
+      {/* Stats grid — driven by real data. km/rides tracking isn't in the
+          backend yet, so those slots show live counts the app actually has. */}
       <View style={styles.statsGrid}>
         <View style={styles.statCard}>
-          <Text style={styles.statValue}>24.8k</Text>
-          <Text style={styles.statLabel}>{t('profile.kmRidden')}</Text>
+          <Text style={styles.statValue}>{bikes.data?.length ?? 0}</Text>
+          <Text style={styles.statLabel}>Bikes</Text>
         </View>
         <View style={styles.statCard}>
-          <Text style={styles.statValue}>142</Text>
+          <Text style={[styles.statValue, styles.statValueBlue]}>{contacts.data?.length ?? 0}</Text>
+          <Text style={styles.statLabel}>Contacts</Text>
+        </View>
+        <View style={styles.statCard}>
+          <Text style={[styles.statValue, styles.statValueGreen]}>0</Text>
           <Text style={styles.statLabel}>{t('profile.rides')}</Text>
-        </View>
-        <View style={styles.statCard}>
-          <Text style={styles.statValue}>38</Text>
-          <Text style={styles.statLabel}>{t('profile.buddies')}</Text>
         </View>
       </View>
 
       {/* Menu items - grouped card */}
       <Card>
-        <LinkRow
-          title={t('profile.nearby')}
-          onPress={() => nav.navigate('nearby')}
-          icon="🧭"
-          hideBorder
-        />
+        <LinkRow title={t('profile.nearby')} onPress={comingSoon} icon="🧭" hideBorder />
         <LinkRow
           title={t('contacts.title')}
           subtitle={t('contacts.subtitle')}
@@ -96,19 +106,15 @@ function ProfileContent({ profile }: { profile: UserProfile }): ReactNode {
           icon="🚨"
           hideBorder
         />
-        <LinkRow title="Medical Information" onPress={() => {}} icon="🩺" hideBorder />
+        <LinkRow title={t('profile.medical')} onPress={comingSoon} icon="🩺" hideBorder />
         <LinkRow
-          title="Privacy & Security"
-          onPress={() => nav.navigate('settings')}
-          icon="🔒"
+          title={t('profile.blocked')}
+          onPress={() => nav.navigate('blockList')}
+          icon="🚫"
           hideBorder
         />
-        <LinkRow
-          title={t('profile.settings')}
-          onPress={() => nav.navigate('settings')}
-          icon="⚙️"
-          noBorderBottom
-        />
+        <LinkRow title={t('profile.privacy')} onPress={comingSoon} icon="🔒" hideBorder />
+        <LinkRow title={t('profile.settings')} onPress={comingSoon} icon="⚙️" noBorderBottom />
       </Card>
 
       {/* Sign out button */}
@@ -138,7 +144,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 24,
     elevation: 8,
-  } as ViewStyle,
+  },
   avatarPlaceholder: {
     width: 88,
     height: 88,
@@ -157,7 +163,8 @@ const styles = StyleSheet.create({
   },
   avatarInitial: { fontSize: 30, fontWeight: '800', color: '#fff' },
   displayName: { fontSize: 22, fontWeight: '800', color: colors.text, marginBottom: spacing(0.5) },
-  email: { fontSize: 13, color: colors.muted, marginBottom: spacing(1.5) },
+  email: { fontSize: 13, color: colors.muted, marginBottom: spacing(0.5) },
+  location: { fontSize: 13, color: colors.muted, marginBottom: spacing(1.5) },
   statsGrid: {
     flexDirection: 'row',
     gap: spacing(1.5),
@@ -173,6 +180,8 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 0.06)',
   },
   statValue: { fontSize: 22, fontWeight: '800', color: colors.primary, marginBottom: spacing(0.25) },
+  statValueBlue: { color: colors.secondary },
+  statValueGreen: { color: colors.success },
   statLabel: { fontSize: 11, color: colors.muted, fontWeight: '500' },
   signOutButton: { marginTop: spacing(2) },
 });

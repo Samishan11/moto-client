@@ -37,7 +37,10 @@ export function DateField({ label, value, onChange, optional }: DateFieldProps):
 
   return (
     <View style={styles.field}>
-      <Text style={styles.label}>{label}</Text>
+      <View style={styles.labelRow}>
+        <Text style={styles.label}>{label}</Text>
+        {optional ? <Text style={styles.optional}>{t('common.optional')}</Text> : null}
+      </View>
       <View style={styles.row}>
         <Pressable style={styles.input} onPress={() => setShow(true)}>
           <Text style={value ? styles.value : styles.placeholder}>
@@ -77,20 +80,27 @@ export function DateField({ label, value, onChange, optional }: DateFieldProps):
 }
 
 const styles = StyleSheet.create({
-  field: { gap: spacing(0.5) },
-  label: { fontSize: 13, fontWeight: '600', color: colors.text },
+  field: { gap: spacing(1) },
+  labelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  label: { fontSize: 12, fontWeight: '600', color: colors.muted },
+  optional: { fontSize: 12, fontWeight: '500', color: colors.faint },
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing(1) },
   input: {
     flex: 1,
+    height: 54,
+    justifyContent: 'center',
     borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.fieldBg,
-    borderRadius: 10,
-    paddingHorizontal: spacing(1.5),
-    paddingVertical: spacing(1.25),
+    borderColor: colors.fieldBorder,
+    backgroundColor: colors.surface,
+    borderRadius: 16,
+    paddingHorizontal: spacing(2),
   },
-  value: { fontSize: 16, color: colors.text },
-  placeholder: { fontSize: 16, color: colors.muted },
+  value: { fontSize: 15, fontWeight: '500', color: colors.text },
+  placeholder: { fontSize: 15, fontWeight: '500', color: colors.faint },
   clearBtn: { paddingHorizontal: spacing(1) },
   clear: { fontSize: 14, color: colors.primary, fontWeight: '500' },
   backdrop: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.3)' },

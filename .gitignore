@@ -12,3 +12,9 @@ web-build/
 
 .DS_Store
 *.log
+
+# graphify local analysis output
+graphify-out/
+
+# local claude settings
+.claude/settings.local.json

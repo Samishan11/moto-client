@@ -1,7 +1,8 @@
-import { useState, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { EmailSchema, PasswordSchema } from '@moto/contract';
+import { AuthField } from '../components/AuthField';
 import { useNavigation } from '../navigation/Navigator';
 import { useRegister } from '../auth/mutations';
 import { errorMessage } from '../api/errorMessage';
@@ -15,8 +16,9 @@ export function RegisterScreen(): ReactNode {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const nameRef = useRef<TextInput>(null);
+  const passwordRef = useRef<TextInput>(null);
 
   const strength = passwordStrength(password);
 
@@ -53,50 +55,49 @@ export function RegisterScreen(): ReactNode {
         <Text style={styles.subtitle}>Join your crew on Moto.</Text>
 
         {/* Email Field */}
-        <Text style={styles.label}>Email</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholder="you@ride.co"
-            placeholderTextColor="#6B7280"
-            editable={!register.isPending}
-          />
-        </View>
+        <AuthField
+          label="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          textContentType="emailAddress"
+          autoComplete="email"
+          placeholder="you@ride.co"
+          editable={!register.isPending}
+          returnKeyType="next"
+          onSubmitEditing={() => nameRef.current?.focus()}
+        />
 
         {/* Display Name Field */}
-        <Text style={styles.label}>Display name</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            value={displayName}
-            onChangeText={setDisplayName}
-            autoCapitalize="words"
-            placeholder="Your name"
-            placeholderTextColor="#6B7280"
-            editable={!register.isPending}
-          />
-        </View>
+        <AuthField
+          ref={nameRef}
+          label="Display name"
+          value={displayName}
+          onChangeText={setDisplayName}
+          autoCapitalize="words"
+          textContentType="name"
+          autoComplete="name"
+          placeholder="Your name"
+          editable={!register.isPending}
+          returnKeyType="next"
+          onSubmitEditing={() => passwordRef.current?.focus()}
+        />
 
         {/* Password Field */}
-        <Text style={styles.label}>Password</Text>
-        <View style={styles.passwordContainer}>
-          <TextInput
-            style={[styles.input, styles.passwordInput]}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-            placeholder="Create password"
-            placeholderTextColor="#6B7280"
-            editable={!register.isPending}
-          />
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            <Text style={styles.eyeIcon}>👁</Text>
-          </TouchableOpacity>
-        </View>
+        <AuthField
+          ref={passwordRef}
+          label="Password"
+          value={password}
+          onChangeText={setPassword}
+          isPassword
+          textContentType="newPassword"
+          autoComplete="password-new"
+          placeholder="Create password"
+          editable={!register.isPending}
+          returnKeyType="go"
+          onSubmitEditing={onSubmit}
+        />
 
         {/* Password Strength */}
         {password.length > 0 ? (
@@ -186,6 +187,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
   },
+  // Applied only to the actively-focused field (dynamic, not permanent).
+  inputFocused: {
+    borderColor: 'rgba(255,90,31,0.5)',
+    shadowColor: '#FF5A1F',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 3,
+  },
   input: {
     fontSize: 15,
     fontWeight: '500',
@@ -193,23 +203,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  // Password Container
+  // Password Container — inherits base inputContainer; adds row layout for the eye toggle.
   passwordContainer: {
-    height: 54,
-    borderRadius: 16,
-    backgroundColor: '#15171C',
-    borderWidth: 1,
-    borderColor: 'rgba(255,90,31,0.4)',
     marginBottom: 12,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
     flexDirection: 'row',
-    shadowColor: 'rgba(255,90,31,0.08)',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    elevation: 4,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   passwordInput: {
     flex: 1,

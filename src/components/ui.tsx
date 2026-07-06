@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -11,6 +11,7 @@ import {
   type TextInputProps,
   View,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../theme';
 
 /** Scrollable, keyboard-aware container used by every auth screen. */
@@ -40,17 +41,57 @@ export function Subtitle({ children }: { children: ReactNode }): ReactNode {
 
 interface FieldProps extends TextInputProps {
   label: string;
+  /** Marks the field "Optional" on the label row (default: fields read as required). */
+  optional?: boolean;
+  /** Faint helper text under the input; replaced by `error` when present. */
+  hint?: string;
+  /** Inline validation message — red ring + text under the input. */
+  error?: string | null;
 }
 
-export function Field({ label, style, ...props }: FieldProps): ReactNode {
+/** Canonical text input (design-file spec: 54px, radius 16, surface + hairline,
+ * orange focus ring). Labels are muted 12px; errors take over the hint slot. */
+export function Field({
+  label,
+  optional,
+  hint,
+  error,
+  style,
+  onFocus,
+  onBlur,
+  ...props
+}: FieldProps): ReactNode {
+  const { t } = useTranslation();
+  const [focused, setFocused] = useState(false);
   return (
     <View style={styles.field}>
-      <Text style={styles.label}>{label}</Text>
+      <View style={styles.labelRow}>
+        <Text style={styles.label}>{label}</Text>
+        {optional ? <Text style={styles.optional}>{t('common.optional')}</Text> : null}
+      </View>
       <TextInput
-        style={[styles.input, style]}
-        placeholderTextColor={colors.muted}
+        style={[
+          styles.input,
+          focused && styles.inputFocused,
+          error ? styles.inputError : null,
+          style,
+        ]}
+        placeholderTextColor={colors.faint}
+        onFocus={(e) => {
+          setFocused(true);
+          onFocus?.(e);
+        }}
+        onBlur={(e) => {
+          setFocused(false);
+          onBlur?.(e);
+        }}
         {...props}
       />
+      {error ? (
+        <Text style={styles.fieldError}>{error}</Text>
+      ) : hint ? (
+        <Text style={styles.hint}>{hint}</Text>
+      ) : null}
     </View>
   );
 }
@@ -130,18 +171,29 @@ const styles = StyleSheet.create({
   },
   title: { fontSize: 28, fontWeight: '700', color: colors.text },
   subtitle: { fontSize: 15, color: colors.muted, marginBottom: spacing(1) },
-  field: { gap: spacing(0.5) },
-  label: { fontSize: 13, fontWeight: '600', color: colors.text },
+  field: { gap: spacing(1) },
+  labelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  label: { fontSize: 12, fontWeight: '600', color: colors.muted },
+  optional: { fontSize: 12, fontWeight: '500', color: colors.faint },
   input: {
+    height: 54,
     borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.fieldBg,
-    borderRadius: 10,
-    paddingHorizontal: spacing(1.5),
-    paddingVertical: spacing(1.25),
-    fontSize: 16,
+    borderColor: colors.fieldBorder,
+    backgroundColor: colors.surface,
+    borderRadius: 16,
+    paddingHorizontal: spacing(2),
+    fontSize: 15,
+    fontWeight: '500',
     color: colors.text,
   },
+  inputFocused: { borderColor: colors.fieldBorderFocus },
+  inputError: { borderColor: 'rgba(255,69,58,0.5)' },
+  hint: { fontSize: 12, fontWeight: '500', color: colors.faint },
+  fieldError: { fontSize: 12, fontWeight: '600', color: colors.error },
   primaryBtn: {
     backgroundColor: colors.primary,
     borderRadius: 16,
@@ -151,7 +203,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
     shadowColor: '#FF5A1F',
     shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.6,
+    shadowOpacity: 0.2,
     shadowRadius: 26,
     elevation: 10,
   },

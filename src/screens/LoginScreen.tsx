@@ -1,20 +1,23 @@
-import { useState, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { EmailSchema } from '@moto/contract';
+import { AuthField } from '../components/AuthField';
 import { useNavigation } from '../navigation/Navigator';
 import { useLogin } from '../auth/mutations';
+import { useGoogleSignIn } from '../auth/googleSignIn';
 import { errorMessage } from '../api/errorMessage';
 
 export function LoginScreen(): ReactNode {
   const { t } = useTranslation();
   const nav = useNavigation();
   const login = useLogin();
+  const google = useGoogleSignIn();
 
-  const [email, setEmail] = useState('alex@ride.co');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const passwordRef = useRef<TextInput>(null);
 
   function onSubmit(): void {
     setValidationError(null);
@@ -29,7 +32,10 @@ export function LoginScreen(): ReactNode {
     login.mutate({ email: email.trim(), password });
   }
 
-  const error = validationError ?? (login.error ? errorMessage(login.error, t) : null);
+  const error =
+    validationError ??
+    (login.error ? errorMessage(login.error, t) : null) ??
+    (google.error ? errorMessage(google.error, t) : null);
 
   return (
     <KeyboardAvoidingView
@@ -50,32 +56,34 @@ export function LoginScreen(): ReactNode {
         <Text style={styles.subtitle}>Sign in to keep riding</Text>
 
         {/* Email Field */}
-        <Text style={styles.label}>Email</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            editable={!login.isPending}
-          />
-        </View>
+        <AuthField
+          label="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          textContentType="username"
+          autoComplete="email"
+          placeholder="you@ride.co"
+          editable={!login.isPending}
+          returnKeyType="next"
+          onSubmitEditing={() => passwordRef.current?.focus()}
+        />
 
         {/* Password Field */}
-        <Text style={styles.label}>Password</Text>
-        <View style={styles.passwordContainer}>
-          <TextInput
-            style={[styles.input, styles.passwordInput]}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-            editable={!login.isPending}
-          />
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            <Text style={styles.eyeIcon}>👁</Text>
-          </TouchableOpacity>
-        </View>
+        <AuthField
+          ref={passwordRef}
+          label="Password"
+          value={password}
+          onChangeText={setPassword}
+          isPassword
+          textContentType="password"
+          autoComplete="current-password"
+          placeholder="••••••••"
+          editable={!login.isPending}
+          returnKeyType="go"
+          onSubmitEditing={onSubmit}
+        />
 
         {/* Forgot Password */}
         <TouchableOpacity onPress={() => nav.navigate('forgot')} style={styles.forgotButton}>
@@ -106,9 +114,21 @@ export function LoginScreen(): ReactNode {
         </View>
 
         {/* Google Button */}
-        <TouchableOpacity style={styles.googleButton}>
-          <Text style={styles.googleButtonG}>G</Text>
-          <Text style={styles.googleButtonText}>Continue with Google</Text>
+        <TouchableOpacity
+          style={[styles.googleButton, !google.ready && styles.googleButtonDisabled]}
+          onPress={google.signIn}
+          disabled={!google.ready || google.isPending || login.isPending}
+          accessibilityRole="button"
+          accessibilityLabel="Continue with Google"
+        >
+          {google.isPending ? (
+            <ActivityIndicator color="#F2F3F5" />
+          ) : (
+            <>
+              <Text style={styles.googleButtonG}>G</Text>
+              <Text style={styles.googleButtonText}>Continue with Google</Text>
+            </>
+          )}
         </TouchableOpacity>
 
         {/* New Rider Link */}
@@ -187,6 +207,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
   },
+  // Applied only to the actively-focused field (dynamic, not permanent).
+  inputFocused: {
+    borderColor: 'rgba(255,90,31,0.5)',
+    shadowColor: '#FF5A1F',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 3,
+  },
   input: {
     fontSize: 15,
     fontWeight: '500',
@@ -194,23 +223,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  // Password Container
+  // Password Container — inherits base inputContainer; adds row layout for the eye toggle.
   passwordContainer: {
-    height: 54,
-    borderRadius: 16,
-    backgroundColor: '#15171C',
-    borderWidth: 1,
-    borderColor: 'rgba(255,90,31,0.4)',
     marginBottom: 12,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
     flexDirection: 'row',
-    shadowColor: 'rgba(255,90,31,0.08)',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    elevation: 4,
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   passwordInput: {
     flex: 1,
@@ -289,6 +307,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     gap: 10,
+  },
+  googleButtonDisabled: {
+    opacity: 0.5,
   },
   googleButtonG: {
     fontSize: 16,

@@ -1,6 +1,7 @@
 import type {
   AuthResult,
   ForgotPasswordRequest,
+  GoogleLoginRequest,
   LoginRequest,
   MessageResponse,
   RegisterRequest,
@@ -23,6 +24,10 @@ export function registerRequest(body: RegisterRequest): Promise<AuthResult> {
 
 export function loginRequest(body: LoginRequest): Promise<AuthResult> {
   return apiFetch<AuthResult>('/auth/login', { method: 'POST', body });
+}
+
+export function googleLoginRequest(body: GoogleLoginRequest): Promise<AuthResult> {
+  return apiFetch<AuthResult>('/auth/google', { method: 'POST', body });
 }
 
 export function logoutRequest(): Promise<MessageResponse> {

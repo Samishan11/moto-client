@@ -13,6 +13,11 @@ export function setAccessToken(token: string | null): void {
   accessToken = token;
 }
 
+/** Current in-memory access token (used by the Socket.IO client for its handshake). */
+export function getAccessToken(): string | null {
+  return accessToken;
+}
+
 /**
  * The auth layer registers this bridge so the API client can refresh tokens and
  * report session expiry without importing the React context (avoids a cycle).
@@ -89,6 +94,15 @@ async function refreshAccessToken(): Promise<string | null> {
     });
   }
   return refreshInFlight;
+}
+
+/**
+ * Force an access-token refresh outside the fetch path — used by the socket
+ * layer when a handshake is rejected. Shares the single-flight refresh, so
+ * concurrent socket retries and 401ing requests cause one round-trip.
+ */
+export function refreshAccessTokenNow(): Promise<string | null> {
+  return refreshAccessToken();
 }
 
 interface RequestOptions {
